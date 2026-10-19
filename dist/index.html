@@ -31,11 +31,21 @@
      <path d="M333 378q0-11 19-13h196q19 2 19 13l13 13q3 9-8 11H328q-11-2-8-11Z" fill="url(#metal)" stroke="#2c5945" stroke-width="2"/>
      <ellipse cx="450" cy="377" rx="117" ry="12" fill="#668e70"/><path d="M341 379q110 16 218 0" fill="none" stroke="#91af8a" opacity=".4" stroke-width="2"/>
      <g id="beam"><rect x="220" y="89" width="460" height="12" rx="6" fill="url(#metal)" stroke="#2d5745" stroke-width="2"/><circle cx="220" cy="95" r="8" fill="#dccb81" stroke="#2c5b46" stroke-width="3"/><circle cx="680" cy="95" r="8" fill="#dccb81" stroke="#2c5b46" stroke-width="3"/>
-      <g aria-hidden="true"><rect x="411" y="77" width="78" height="16" rx="8" fill="#c6daa3" stroke="#456e4d" stroke-width="1.5"/><path d="M438 79v12m24-12v12" stroke="#718b5c" stroke-width="1"/><ellipse id="air" cx="450" cy="85" rx="6" ry="5" fill="#fcfff4"/></g>
+
      </g>
      <g id="left-pan"><path d="M0 0-80 155M0 0 80 155M0 0v155" stroke="#315d49" stroke-width="2.7" fill="none"/><g id="left-beans"></g><ellipse cy="155" rx="87" ry="8" fill="#eaaa72"/><path d="M-87 155q7 34 87 34t87-34q-87 19-174 0Z" fill="#d57945"/><path d="M-80 164q80 28 160 0-12 25-80 25t-80-25" fill="#bd6138"/><ellipse cy="155" rx="87" ry="8" fill="none" stroke="#eaa36b" stroke-width="3"/><text id="left-pan-count" class="pan-count" y="239" text-anchor="middle">5<tspan class="pan-unit"> 颗</tspan></text></g>
      <g id="right-pan"><path d="M0 0-80 155M0 0 80 155M0 0v155" stroke="#315d49" stroke-width="2.7" fill="none"/><g id="right-beans"></g><ellipse cy="155" rx="87" ry="8" fill="#8bc6be"/><path d="M-87 155q7 34 87 34t87-34q-87 19-174 0Z" fill="#409b9a"/><path d="M-80 164q80 28 160 0-12 25-80 25t-80-25" fill="#2b8184"/><ellipse cy="155" rx="87" ry="8" fill="none" stroke="#7abdb7" stroke-width="3"/><text id="right-pan-count" class="pan-count" y="239" text-anchor="middle">5<tspan class="pan-unit"> 颗</tspan></text></g>
      <circle cx="450" cy="95" r="18" fill="#35614a"/><circle cx="450" cy="95" r="12" fill="#dfc56e" stroke="#b59d4f" stroke-width="1.5"/><ellipse cx="447" cy="91" rx="5" ry="4" fill="#f4e3a3"/>
+     <g id="level" role="img" aria-label="平衡气泡：居中，天平平衡">
+      <title id="level-title">平衡气泡：居中，天平平衡</title>
+      <rect x="390" y="76" width="120" height="38" rx="19" fill="#2fbf6f" stroke="#226b3e" stroke-width="2.5"/>
+      <rect x="395" y="80" width="110" height="10" rx="5" fill="#fff" opacity=".27"/>
+      <path d="M430 79v32m40-32v32" stroke="#17613b" stroke-width="1.8" opacity=".8"/>
+      <path d="M450 78v7m0 20v7" stroke="#124d30" stroke-width="2"/>
+      <ellipse id="air" cx="450" cy="95" rx="8.5" ry="11" fill="#fff" stroke="#effff3" stroke-width="1.2"/>
+      <ellipse cx="400" cy="94" rx="3" ry="8" fill="#fff" opacity=".18"/>
+      <rect x="394" y="117" width="112" height="21" rx="5" fill="#f7f8f2" opacity=".96"/><g fill="#315c43" font-size="12" text-anchor="middle" font-weight="650"><text x="412" y="132">左高</text><text x="450" y="132">平衡</text><text x="488" y="132">右高</text></g>
+     </g>
     </svg>
    </div>
    <div class="controls">
@@ -48,18 +58,18 @@
  </div>
  <footer class="lesson-footer"><span>等臂、同重的教学模型 · 倾斜角度仅作示意 · 气泡移向较高的一侧</span><label class="count-toggle"><input id="show-counts" type="checkbox" checked>显示数量</label></footer>
 </main>
-<dialog id="help-dialog" aria-labelledby="help-title"><button class="close" id="close-help" aria-label="关闭帮助">×</button><h2 id="help-title">把课堂变成小小实验室</h2><ol><li><strong>自由探索：</strong>点击 +1、+5 放豆，点击 −1、−5 取豆。也可以点击托盘放入一颗。</li><li><strong>先猜再做：</strong>用“随机放豆”布置实验；取消“显示数量”，让同学先观察、数豆和预测。</li><li><strong>平衡挑战：</strong>左盘固定，只调整右盘。完成后点击“检查答案”，再换一题。</li></ol><p><strong>键盘操作：</strong><kbd>A</kbd> 左边 +1，<kbd>Z</kbd> 左边 −1；<kbd>K</kbd> 右边 +1，<kbd>M</kbd> 右边 −1。按住 <kbd>Shift</kbd> 每次改变 5 颗。</p><p class="dialog-note">这是等臂天平的数量比较模型，假设每颗绿豆一样重。倾斜角度用于展示差异，不对应真实角度。横梁上的气泡向高处移动；它是辅助观察标记，并非所有真实托盘天平都有的装置。</p><button class="btn primary" id="start">开始实验</button></dialog>
+<dialog id="help-dialog" aria-labelledby="help-title"><button class="close" id="close-help" aria-label="关闭帮助">×</button><h2 id="help-title">把课堂变成小小实验室</h2><ol><li><strong>自由探索：</strong>点击 +1、+5 放豆，点击 −1、−5 取豆。也可以点击托盘放入一颗。</li><li><strong>先猜再做：</strong>用“随机放豆”布置实验；取消“显示数量”，让同学先观察、数豆和预测。</li><li><strong>平衡挑战：</strong>左盘固定，只调整右盘。完成后点击“检查答案”，再换一题。</li></ol><p><strong>键盘操作：</strong><kbd>A</kbd> 左边 +1，<kbd>Z</kbd> 左边 −1；<kbd>K</kbd> 右边 +1，<kbd>M</kbd> 右边 −1。按住 <kbd>Shift</kbd> 每次改变 5 颗。</p><p class="dialog-note">这是等臂天平的数量比较模型，假设每颗绿豆一样重。倾斜角度用于展示差异，不对应真实角度。绿色气泡管分成左、中、右三格：白色气泡在中心刻线时表示平衡；向左表示左侧较高、右盘下沉；向右表示右侧较高、左盘下沉。气泡与横梁同步运动，偏移程度经过放大以便观察；这是辅助标记，并非所有真实托盘天平都有的装置。</p><button class="btn primary" id="start">开始实验</button></dialog>
 <div class="toast" id="toast" role="status" hidden></div>
 <script>
 (()=>{'use strict';
 const $=id=>document.getElementById(id), NS='http://www.w3.org/2000/svg', MAX=30;
 const state={left:5,right:5,mode:'explore',show:true,round:0,checked:false};let freeState={left:5,right:5};
 let angle=0,targetAngle=0,frame=0,toastTimer=0;const reduced=matchMedia('(prefers-reduced-motion: reduce)');
-function place(){const rad=angle*Math.PI/180;$('beam').setAttribute('transform',`rotate(${angle} 450 95)`);['left','right'].forEach(side=>{const dx=side==='left'?-230:230;const x=450+dx*Math.cos(rad),y=95+dx*Math.sin(rad);$(side+'-pan').setAttribute('transform',`translate(${x} ${y})`)});$('air').setAttribute('cx',450-Math.sign(targetAngle)*24)}
+function place(){const rad=angle*Math.PI/180;$('beam').setAttribute('transform',`rotate(${angle} 450 95)`);['left','right'].forEach(side=>{const dx=side==='left'?-230:230;const x=450+dx*Math.cos(rad),y=95+dx*Math.sin(rad);$(side+'-pan').setAttribute('transform',`translate(${x} ${y})`)});$('level').setAttribute('transform',`rotate(${angle} 450 95)`);$('air').setAttribute('cx',450-36*Math.tanh(angle*1.5))}
 function animate(){frame=0;angle+=(targetAngle-angle)*.17;if(Math.abs(targetAngle-angle)<.02)angle=targetAngle;place();if(angle!==targetAngle)frame=requestAnimationFrame(animate)}
 function tilt(){targetAngle=Math.max(-10,Math.min(10,(state.right-state.left)*1.2));if(reduced.matches){cancelAnimationFrame(frame);frame=0;angle=targetAngle;place()}else if(!frame)frame=requestAnimationFrame(animate)}
 function drawBeans(side){const wrap=$(side+'-beans');wrap.replaceChildren();const n=state[side];for(let i=0;i<n;i++){const row=Math.floor(i/10),col=i%10,items=Math.min(10,n-row*10);const x=(col-(items-1)/2)*(items<=6?25:16.5),y=139-row*21;const group=document.createElementNS(NS,'g');group.setAttribute('data-bean','');const bean=document.createElementNS(NS,'ellipse');bean.setAttribute('cx',x);bean.setAttribute('cy',y);bean.setAttribute('rx','10');bean.setAttribute('ry','12');bean.setAttribute('class','bean');bean.setAttribute('transform',`rotate(${(i%3-1)*14} ${x} ${y})`);const seam=document.createElementNS(NS,'path');seam.setAttribute('d',`M${x-1} ${y-4}q-2 4 0 7`);seam.setAttribute('class','bean-seam');group.append(bean,seam);wrap.append(group)}}
-function render(){const diff=state.left-state.right,balanced=diff===0,side=diff>0?'left':'right',word=diff>0?'左':'右';$('status').textContent=balanced?'天平平衡':`${word}边较重`;$('status').dataset.tone=balanced?'balanced':side;
+function render(){const diff=state.left-state.right,balanced=diff===0,side=diff>0?'left':'right',word=diff>0?'左':'右';const levelText=balanced?'居中，天平平衡':diff>0?'偏右，右侧较高，左盘下沉':'偏左，左侧较高，右盘下沉';$('status').textContent=balanced?'天平平衡 · 气泡居中':`${word}边较重 · 气泡偏${diff>0?'右':'左'}`;$('level').setAttribute('aria-label','平衡气泡：'+levelText);$('level-title').textContent='平衡气泡：'+levelText;$('status').dataset.tone=balanced?'balanced':side;
 ['left','right'].forEach(s=>{$(s+'-count').textContent=state.show?state[s]:'?';$(s+'-pan-count').replaceChildren(document.createTextNode(state.show?state[s]:'?'));const unit=document.createElementNS(NS,'tspan');unit.setAttribute('class','pan-unit');unit.textContent=' 颗';$(s+'-pan-count').append(unit);$('eq-'+s).textContent=state.show?state[s]:'?';drawBeans(s)});
 $('operator').textContent=balanced?'=':diff>0?'>':'<';$('explanation').textContent=balanced?(state.left===0?'两边都是空盘，天平保持平衡。':'两边一样多，天平保持平衡。'):(state.show?`${word}边多 ${Math.abs(diff)} 颗，${word}托盘下沉。`:`${word}边较重，${word}托盘下沉。数一数，两边差几颗？`);
 $('balance').setAttribute('aria-label',state.show?`左盘 ${state.left} 颗，右盘 ${state.right} 颗，${$('status').textContent}`:`数量已隐藏，${$('status').textContent}`);
