@@ -42,7 +42,7 @@ python3 -m http.server 4186 --bind 127.0.0.1
 esa-cli deploy --name classroom-bean-balance --assets ./dist --environment production --skip-update-check
 ```
 
-2026-10-20 已实际尝试部署：CLI 登录检查通过，但阿里云返回 HTTP 403，当前 RAM 身份缺少 `esa:ListUserRoutines` 和 `esa:CreateRoutine` 权限，部署尚未成功。管理员补充权限后执行同一命令即可继续。不要把密钥放入仓库、离线包或聊天。
+2026-10-20 已按用户明确授权为 `esa-pages-deploy` 添加 `AliyunESAFullAccess`，并成功部署至 ESA 生产环境。版本 `1792453389306711266`，流量比例 100%。线上 6 个运行资源均按 SHA-256 读回核对一致，IAB 已验证目录筛选、搜索、天平气泡与返回首页。默认调试链接鉴权有效期为 1 小时；长期访问需要自定义域名。不要把密钥或调试 token 放入仓库、离线包或聊天记录文件。
 
 历史 Sites 私人预览是另一种托管方式，不等于 ESA 部署；本次首页工作按用户要求以 ESA 为部署目标。
 
