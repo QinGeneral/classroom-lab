@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>托盘天平 · 绿豆小游戏</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(160deg, #cfe9ff 0%, #eaf6ff 55%, #f5fbf3 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 14px 10px 26px;
+    overflow-x: hidden;
+    user-select: none;
+  }
+  h1 {
+    font-size: 22px;
+    color: #1b3a6b;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 0 #fff;
+  }
+  .sub { color: #5a7ca0; font-size: 12.5px; margin-top: 3px; margin-bottom: 10px; }
+
+  .bubble {
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 18px;
+    padding: 8px 18px;
+    margin-bottom: 8px;
+    box-shadow: 0 4px 12px rgba(40,90,160,.14);
+    font-size: 15px;
+    color: #234;
+    text-align: center;
+    transition: .3s;
+    border: 2px solid #d6eaff;
+  }
+  .bubble.left  { border-color:#ffb199; background:#fff1ec; }
+  .bubble.right { border-color:#9fc6ff; background:#ecf4ff; }
+  .bubble.balanced { border-color:#7ed6a0; background:#eafaf0; }
+
+  /* ===== 天平舞台 ===== */
+  .stage {
+    position: relative;
+    width: 100%;
+    max-width: 360px;
+    height: 320px;
+    margin: 6px 0 10px;
+  }
+  svg { width: 100%; height: 100%; overflow: visible; }
+
+  /* 托盘里的绿豆 */
+  .beans { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; }
+  .bean {
+    position: absolute;
+    width: 10px; height: 13px;
+    margin-left: -5px; margin-top: -6.5px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #8fd07a 0%, #4caf50 55%, #2e7d32 100%);
+    box-shadow: inset -1px -1px 2px rgba(0,0,0,.25);
+  }
+
+  /* ===== 两侧控制区 ===== */
+  .panels {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    max-width: 400px;
+  }
+  .panel {
+    flex: 1;
+    background: #fff;
+    border-radius: 16px;
+    padding: 10px 8px;
+    text-align: center;
+    box-shadow: 0 4px 14px rgba(40,90,160,.12);
+  }
+  .panel.left .tag { color:#e2603f; }
+  .panel.right .tag { color:#3f7fe2; }
+  .tag { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+  .count { font-size: 26px; font-weight: 800; color:#1b3a6b; }
+  .unit { font-size: 11px; color:#8aa; }
+  .btns { display: flex; gap: 8px; justify-content: center; margin-top: 6px; }
+  .btns button {
+    width: 46px; height: 40px; border: none; border-radius: 12px;
+    font-size: 22px; font-weight: 800; color: #fff;
+    box-shadow: 0 3px 0 rgba(0,0,0,.12);
+    transition: transform .06s;
+  }
+  .btns button:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(0,0,0,.12); }
+  .minus { background: #ff8a6b; }
+  .plus  { background: #4caf50; }
+
+  .actions { margin-top: 14px; display: flex; gap: 12px; }
+  .actions button {
+    border: none; border-radius: 24px; padding: 11px 26px;
+    font-size: 15px; font-weight: 700; color:#fff;
+    background: linear-gradient(135deg,#3f8ef7,#1b5fc4);
+    box-shadow: 0 4px 12px rgba(30,90,200,.3);
+  }
+  .actions button:active { transform: translateY(2px); }
+  .actions .ghost { background: #fff; color:#5a7ca0; box-shadow: 0 3px 10px rgba(0,0,0,.08); }
+
+  .hint { margin-top: 12px; font-size: 11.5px; color:#8aa; text-align:center; line-height:1.6; }
+</style>
+</head>
+<body>
+  <h1>⚖️ 托盘天平</h1>
+  <div class="sub">往两边放绿豆，看天平往哪边歪</div>
+
+  <div class="bubble" id="bubble">点「＋」给两边放绿豆试试吧</div>
+
+  <div class="stage">
+    <svg viewBox="0 0 360 320" id="svg">
+      <!-- 底座 -->
+      <path d="M150 300 L210 300 L198 268 L162 268 Z" fill="#2b6fd4"/>
+      <rect x="174" y="260" width="12" height="14" rx="3" fill="#1b4f9c"/>
+      <!-- 立柱 -->
+      <rect x="177" y="60" width="6" height="204" rx="3" fill="#3b82e6"/>
+      <!-- 顶帽 -->
+      <path d="M160 60 Q180 44 200 60 Z" fill="#2b6fd4"/>
+      <!-- 支点三角 -->
+      <polygon points="180,104 168,128 192,128" fill="#1b4f9c"/>
+      <!-- 横梁（旋转中心 180,112） -->
+      <g id="beam">
+        <rect x="40" y="106" width="280" height="14" rx="7" fill="#ffc94d"/>
+        <circle cx="180" cy="113" r="7" fill="#fff" stroke="#d98a00" stroke-width="2"/>
+        <!-- 水平泡：绿色液体充满，分成三个格子，气泡落在当前所在格 -->
+        <g id="bubblevial">
+          <!-- 玻璃管外壳（绿色液体充满） -->
+          <rect x="148" y="99" width="64" height="22" rx="11" fill="#2fbf6f" stroke="#226b3e" stroke-width="2"/>
+          <!-- 玻璃高光 -->
+          <rect x="151" y="101" width="58" height="6" rx="3" fill="rgba(255,255,255,.35)"/>
+          <!-- 三格分隔线 -->
+          <g stroke="#14552c" stroke-width="1.6" opacity=".75">
+            <line x1="165.3" y1="101" x2="165.3" y2="119"/>
+            <line x1="194.7" y1="101" x2="194.7" y2="119"/>
+          </g>
+          <!-- 中间格标记线（居中参考） -->
+          <g stroke="#0c3d20" stroke-width="1.4">
+            <line x1="180" y1="100.5" x2="180" y2="103"/>
+            <line x1="180" y1="118" x2="180" y2="120.5"/>
+          </g>
+          <!-- 空气泡（在液面最高点） -->
+          <circle id="air" cx="180" cy="110" r="5.6" fill="#ffffff" opacity=".97"/>
+        </g>
+        <!-- 吊线 -->
+        <line x1="64"  y1="120" x2="64"  y2="168" stroke="#888" stroke-width="1.6"/>
+        <line x1="296" y1="120" x2="296" y2="168" stroke="#888" stroke-width="1.6"/>
+        <!-- 托盘 -->
+        <ellipse cx="64"  cy="172" rx="52" ry="12" fill="#ffe9a8" stroke="#d98a00" stroke-width="2.5"/>
+        <ellipse cx="296" cy="172" rx="52" ry="12" fill="#ffe9a8" stroke="#d98a00" stroke-width="2.5"/>
+      </g>
+      <!-- 刻度 -->
+      <g stroke="#aab" stroke-width="1.4">
+        <line x1="180" y1="120" x2="180" y2="130"/>
+        <line x1="140" y1="120" x2="140" y2="126"/>
+        <line x1="100" y1="120" x2="100" y2="126"/>
+        <line x1="220" y1="120" x2="220" y2="126"/>
+        <line x1="260" y1="120" x2="260" y2="126"/>
+      </g>
+    </svg>
+    <div class="beans" id="beans"></div>
+  </div>
+
+  <div class="panels">
+    <div class="panel left">
+      <div class="tag">🔥 左边</div>
+      <div class="count" id="cLeft">0</div>
+      <div class="unit">颗绿豆</div>
+      <div class="btns">
+        <button class="minus" data-side="left" data-d="−1">−</button>
+        <button class="minus" data-side="left" data-d="−5">−5</button>
+        <button class="plus"  data-side="left" data-d="+1">＋</button>
+        <button class="plus"  data-side="left" data-d="+5">＋5</button>
+      </div>
+    </div>
+    <div class="panel right">
+      <div class="tag">💧 右边</div>
+      <div class="count" id="cRight">0</div>
+      <div class="unit">颗绿豆</div>
+      <div class="btns">
+        <button class="minus" data-side="right" data-d="−1">−</button>
+        <button class="minus" data-side="right" data-d="−5">−5</button>
+        <button class="plus"  data-side="right" data-d="+1">＋</button>
+        <button class="plus"  data-side="right" data-d="+5">＋5</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button id="reset">清空重来</button>
+    <button class="ghost" id="random">随机挑战</button>
+  </div>
+
+  <div class="hint">
+    每颗绿豆一样重 · 哪边多就往哪边沉<br>
+    横梁倾斜角度 = 两边重量差，中间的气泡在三个格子里左/中/右移动
+  </div>
+
+<script>
+  const state = { left: 0, right: 0 };
+  const beam = document.getElementById('beam');
+  const liquid = document.getElementById('liquid');
+  const air = document.getElementById('air');
+  const bubble = document.getElementById('bubble');
+  const beansWrap = document.getElementById('beans');
+  const cLeft = document.getElementById('cLeft');
+  const cRight = document.getElementById('cRight');
+
+  // 托盘在 SVG 中的中心坐标（相对 viewBox 360x320）
+  const PANS = { left: { cx: 64,  cy: 172 }, right: { cx: 296, cy: 172 } };
+  const VIEW_W = 360, VIEW_H = 320;
+
+  function update() {
+    cLeft.textContent = state.left;
+    cRight.textContent = state.right;
+
+    const diff = state.left - state.right;          // 正数=左重
+    const max = 40;
+    const tilt = Math.max(-1, Math.min(1, diff / 12));  // 倾角系数 -1~1
+    const angle = tilt * 14;                         // 横梁倾角 ±14°
+
+    // 横梁旋转（支点 180,112），左右托盘随它一起沉
+    beam.style.transformOrigin = '180px 113px';
+    beam.style.transform = `rotate(${-angle}deg)`;
+    // 气泡在绿色液体里往高处跑，锁定在三个格子内：左/中/右
+    // 格子中心坐标：左格 157、中格 180、右格 203
+    const cell = tilt < -0.33 ? -1 : tilt > 0.33 ? 1 : 0;   // -1左 / 0中 / 1右
+    const cx = 180 + cell * 23;
+    air.setAttribute('cx', cx);
+
+    drawBeans();
+
+    // 气泡文案
+    if (diff === 0) {
+      bubble.className = 'bubble balanced';
+      bubble.textContent = state.left === 0
+        ? '两边都是空的，天平懒洋洋地平躺着～'
+        : '🎉 平衡！两边一样重，指针稳稳居中';
+    } else if (diff > 0) {
+      const more = state.left - state.right;
+      bubble.className = 'bubble left';
+      bubble.textContent = more === 1
+        ? '左边重一点点，托盘下沉，气泡往左跑 🔥'
+        : `左边多 ${more} 颗沉下去，气泡滑向左边 🔥`;
+    } else {
+      const more = state.right - state.left;
+      bubble.className = 'bubble right';
+      bubble.textContent = more === 1
+        ? '右边重一点点，托盘下沉，气泡往右跑 💧'
+        : `右边多 ${more} 颗沉下去，气泡滑向右边 💧`;
+    }
+  }
+
+  function drawBeans() {
+    beansWrap.innerHTML = '';
+    ['left', 'right'].forEach(side => {
+      const n = state[side];
+      if (!n) return;
+      const pan = PANS[side];
+      // 托盘中心在屏幕上的实际像素位置（跟随横梁旋转）
+      const cxPx = pan.cx / VIEW_W * beansWrap.clientWidth;
+      const cyPx = pan.cy / VIEW_H * beansWrap.clientHeight;
+      const tilt = state.left - state.right; // 正=左低右高
+      const rad = tilt / 12 * 14 * Math.PI / 180;
+      // 托盘内壁参考尺寸（与 drawPans 保持一致）
+      const trayW = 74, trayH = 18;
+      const beanD = 9;          // 豆子绘制直径(px)
+      const gap = 10;           // 豆子中心间距
+      const insideW = trayW - 14; // 托盘内壁可用宽度
+      const cols = Math.max(1, Math.floor(insideW / gap));
+      const startX = cxPx - ((cols - 1) * gap) / 2;
+      const baseY = cyPx + trayH / 2 - 2; // 托盘内底部
+      let i = 0;
+      for (let k = 0; k < n; k++) {
+        const col = i % cols;
+        const row = Math.floor(i / cols);
+        const y = baseY - row * (gap - 1.5);
+        if (y < cyPx - trayH / 2 + beanD) break; // 超过托盘口不再堆
+        const x = startX + col * gap + (row % 2 === 1 ? gap / 2 : 0);
+        // 因托盘倾斜，豆子整体向低侧轻微偏移
+        const lowShift = Math.sin(rad) * (baseY - y) * 0.35;
+        const b = document.createElement('div');
+        b.className = 'bean';
+        b.style.left = (x + lowShift) + 'px';
+        b.style.top = y + 'px';
+        beansWrap.appendChild(b);
+        i++;
+      }
+    });
+  }
+
+  document.querySelectorAll('.btns button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const side = btn.dataset.side;
+      const d = parseInt(btn.dataset.d, 10);
+      state[side] = Math.max(0, Math.min(60, state[side] + d));
+      update();
+    });
+  });
+
+  document.getElementById('reset').addEventListener('click', () => {
+    state.left = 0; state.right = 0; update();
+  });
+
+  document.getElementById('random').addEventListener('click', () => {
+    state.left = Math.floor(Math.random() * 16);
+    state.right = Math.floor(Math.random() * 16);
+    update();
+  });
+
+  update();
+</script>
+</body>
+</html>
+

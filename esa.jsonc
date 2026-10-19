@@ -1,0 +1,7 @@
+{
+  "name": "classroom-bean-balance",
+  "assets": {
+    "directory": "./dist",
+    "notFoundStrategy": "singlePageApplication"
+  }
+}
