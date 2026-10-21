@@ -37,7 +37,15 @@
 - 截图：`vercel-live-home.png`、`vercel-live-experiment.png`。
 - 本机系统代理设置为空，但目标 IP 的实际路由通过 `utun0`，本地 DNS 也出现 Fake-IP 回应。因此本次只证明当前网络可用，未验证中国内地无代理网络或各运营商访问质量。没有修改代理或系统网络设置。
 
-## 再次发布与核验
+## GitHub 自动发布
+
+- 公开仓库：`https://github.com/QinGeneral/classroom-lab`，默认分支 `main`。
+- 用户授权官方 Vercel GitHub 应用后，使用 `vercel git connect https://github.com/QinGeneral/classroom-lab.git --scope qingenerals-projects` 将仓库连接到现有项目。
+- 项目 API 读回 `link.type: github`、`link.org: QinGeneral`、`link.repo: classroom-lab`、`link.repoId: 1428457315`、`link.productionBranch: main`。
+- 仓库根目录 `vercel.json` 将 `dist/` 设为输出目录，关闭安装和构建命令；无需在仓库保存部署 Token 或配置 GitHub Actions。
+- 推送 `main` 后，由 Vercel Git 集成自动发布到正式域名；以对应提交的部署状态和线上资源核验为准。
+
+## 手动发布备用方式与核验
 
 ```sh
 vercel project inspect classroom-lab --scope qingenerals-projects

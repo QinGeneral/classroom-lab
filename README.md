@@ -44,7 +44,7 @@ python3 -m http.server 4186 --bind 127.0.0.1
 
 ### GitHub 自动部署
 
-自动部署目标为 `QinGeneral/classroom-lab` 仓库的 `main` 分支。Vercel GitHub 应用完成授权并连接现有项目后，日常修改网站只需要提交并推送：
+Vercel GitHub 应用已授权，现有 Hobby 项目已连接 `QinGeneral/classroom-lab`，生产分支为 `main`。日常修改网站只需要提交并推送：
 
 ```sh
 git add dist/
