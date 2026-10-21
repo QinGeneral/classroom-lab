@@ -1,0 +1,11 @@
+.git/
+.vercel/
+.openai/
+docs/
+output/
+reference/
+scripts/
+README.md
+esa.jsonc
+.gitignore
+.vercelignore

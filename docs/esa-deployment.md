@@ -33,3 +33,17 @@
 ## 可重复的资源核验
 
 scripts/verify_esa.py 使用 curl 的 Netscape Cookie 支持读回资源。macOS Python 3.9 的 MozillaCookieJar 会跳过 #HttpOnly_ 行，因此不用于实际发起验证请求。脚本不输出或保存 Cookie 值；报告仅包含相对路径、状态和哈希。
+
+## 2026-10-21 自定义域名接入检查
+
+- 用户指定已注册域名 `yuclasslab.dpdns.org`，要求继续绑定至当前 ESA 项目。
+- 公共 DNS 当前 NS 为 `dns1.digitalplat.org`、`dns2.digitalplat.org`；未修改委派或 DNS 记录。
+- `DescribeRatePlanPrice` 查询 `entranceplan`、1 个月、1 个实例，返回 CNY 0 元。
+- `CheckSiteName` 返回 `Passed: true`，但同时返回 `IsSubSite: true`。名称可用并不代表套餐允许接入。
+- 用户明确同意开通 0 元套餐、1 个月、关闭自动续费后，通过 `PurchaseRatePlan` 尝试 NS 接入及 `overseas` 加速区域。
+- 免费版不支持 `OveragePolicy` 参数；移除该参数后，返回 `SubSiteUnavailable`：`Subdomains are allowed only in Enterprise plans. Upgrade your plan to add a subdomain to ESA.`
+- 失败请求 ID：`01A15EA5-23F4-5F7D-8ABD-ED32E6F24CC7`。
+- 随后读回 `ListUserRatePlanInstances --Status all` 与该域名的 `ListSites`，均为 `TotalCount: 0`。没有创建套餐实例或站点；没有完成域名绑定。
+- 当前阻塞：ESA 将这个 DigitalPlat 地址识别为子域名，免费套餐不能以它创建站点。继续 ESA 需要另一个被 ESA 识别为根域名的域名，或由用户另行选择支持该域名的托管平台；不自动购买企业版。
+
+官方错误说明：https://help.aliyun.com/zh/edge-security-acceleration/esa/api-esa-2024-09-10-purchaserateplan

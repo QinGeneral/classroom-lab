@@ -1,0 +1,42 @@
+{
+  "base_url": "https://yuclasslab.dpdns.org",
+  "assets": [
+    {
+      "path": "assets/bean-balance.svg",
+      "status": 200,
+      "sha256": "d0994e874a3266581b4415822500d4a707e75dab5e41211999d25103a42ec887",
+      "matches": true
+    },
+    {
+      "path": "catalog.js",
+      "status": 200,
+      "sha256": "a82033de319836d7476a141ff212dce3b0c19b3256087d15feb5a82a8a7b8f8b",
+      "matches": true
+    },
+    {
+      "path": "experiments/bean-balance/index.html",
+      "status": 200,
+      "sha256": "3a9797846fdc2c9e3f7a387448567d5fdf731db9e386e26c8c9d5e0c9402aed5",
+      "matches": true
+    },
+    {
+      "path": "home.css",
+      "status": 200,
+      "sha256": "4866c3c50eb93b18b0a176ce76b6c6f030177e96f450e51978683896200803d9",
+      "matches": true
+    },
+    {
+      "path": "home.js",
+      "status": 200,
+      "sha256": "466d4b5111009a5bc97a5d2cc91869845075a59c68c8acecb7ddacfb79e9da61",
+      "matches": true
+    },
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "4f7684943b61e9bf06a93045f5ede727f563540c378fa022f844fd00031d38ba",
+      "matches": true
+    }
+  ],
+  "all_match": true
+}

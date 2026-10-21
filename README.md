@@ -2,6 +2,8 @@
 
 按小学、初中、高中共 12 个年级浏览课堂互动小实验。目前开放「绿豆天平」，建议适用于小学一年级、二年级，其他年级明确显示待补充。
 
+正式网站：**https://yuclasslab.dpdns.org/**（Vercel Hobby）。
+
 ## 使用
 
 打开 `dist/index.html` 即可离线浏览目录。目录使用的 CSS、JavaScript、SVG 和实验页面均在 `dist/` 内；分发时请复制整个目录或使用 `output/classroom-lab-offline.zip`，不要只复制首页 HTML。
@@ -34,7 +36,23 @@ python3 -m http.server 4186 --bind 127.0.0.1
 3. 年级使用 `p1`–`p6`（小学）、`m1`–`m3`（初中）、`h1`–`h3`（高中）；一个实验可以归入多个年级。
 4. 目录会自动纳入搜索和筛选。不要为尚未实现的实验创建可进入的链接。
 
-## ESA Pages 部署
+## Vercel Hobby 部署
+
+当前使用 `qingenerals-projects/classroom-lab`，已确认套餐为 Hobby；域名 `yuclasslab.dpdns.org` 已通过所有权验证和 HTTPS 验证。
+
+先确认项目关联正确，再打包并发布：
+
+```sh
+vercel project inspect classroom-lab --scope qingenerals-projects
+python3 scripts/build_vercel.py
+vercel deploy --prebuilt --prod --yes --scope qingenerals-projects
+```
+
+新检出目录需先运行 `vercel link --project classroom-lab --scope qingenerals-projects`。预构建脚本只把 `dist/` 中的网站文件复制到官方 Build Output API 目录，逐个核对 SHA-256；不上传原始参考、截图、文档或凭据。完整部署和 DNS 记录见 `docs/vercel-deployment.md`。
+
+已验证当前网络可以打开网站，但该电脑路由经过 `utun0`，不能当作中国内地无代理直连证明；课堂网络请另行实测，离线版可作为备用。
+
+## ESA Pages 部署记录
 
 已提供 `esa.jsonc`，名称沿用 `classroom-bean-balance`，资源目录为 `dist`。部署命令：
 
@@ -44,7 +62,7 @@ esa-cli deploy --name classroom-bean-balance --assets ./dist --environment produ
 
 2026-10-20 已按用户明确授权为 `esa-pages-deploy` 添加 `AliyunESAFullAccess`，并成功部署至 ESA 生产环境。版本 `1792453389306711266`，流量比例 100%。线上 6 个运行资源均按 SHA-256 读回核对一致，IAB 已验证目录筛选、搜索、天平气泡与返回首页。默认调试链接鉴权有效期为 1 小时；长期访问需要自定义域名。不要把密钥或调试 token 放入仓库、离线包或聊天记录文件。
 
-历史 Sites 私人预览是另一种托管方式，不等于 ESA 部署；本次首页工作按用户要求以 ESA 为部署目标。
+2026-10-21 接入 `yuclasslab.dpdns.org` 时，ESA 将其识别为子域名并拒绝免费套餐接入，因此按用户要求改用 Vercel Hobby。ESA 原有部署与历史 Sites 私人预览不是当前正式入口。
 
 ## 来源与验证
 
@@ -53,3 +71,4 @@ esa-cli deploy --name classroom-bean-balance --assets ./dist --environment produ
 - 实际网页使用原生 HTML/CSS/SVG，天平缩略图来自已实现的真实实验图形。
 - `docs/home-verification.md` 记录首页功能、布局与迁移检查。
 - `docs/esa-deployment.md` 记录 ESA 部署尝试与阻塞原因。
+- `docs/vercel-deployment.md` 和 `docs/vercel-verification.json` 记录当前正式网站的发布、域名和资源核验。
