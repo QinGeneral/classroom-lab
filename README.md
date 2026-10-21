@@ -4,6 +4,8 @@
 
 正式网站：**https://yuclasslab.dpdns.org/**（Vercel Hobby）。
 
+公开源码：**https://github.com/QinGeneral/classroom-lab**。
+
 ## 使用
 
 打开 `dist/index.html` 即可离线浏览目录。目录使用的 CSS、JavaScript、SVG 和实验页面均在 `dist/` 内；分发时请复制整个目录或使用 `output/classroom-lab-offline.zip`，不要只复制首页 HTML。
@@ -39,6 +41,20 @@ python3 -m http.server 4186 --bind 127.0.0.1
 ## Vercel Hobby 部署
 
 当前使用 `qingenerals-projects/classroom-lab`，已确认套餐为 Hobby；域名 `yuclasslab.dpdns.org` 已通过所有权验证和 HTTPS 验证。
+
+### GitHub 自动部署
+
+自动部署目标为 `QinGeneral/classroom-lab` 仓库的 `main` 分支。Vercel GitHub 应用完成授权并连接现有项目后，日常修改网站只需要提交并推送：
+
+```sh
+git add dist/
+git commit -m "Update classroom experiments"
+git push origin main
+```
+
+Vercel 会读取仓库根目录的 `vercel.json`，不安装依赖、不运行框架构建，直接发布 `dist/`。在 GitHub 提交检查或 Vercel Deployments 中确认部署完成后，正式域名会指向新版本。这个流程不需要在 GitHub 仓库中保存 Vercel Token，也不需要手动运行 CLI 部署。
+
+### 手动部署备用方式
 
 先确认项目关联正确，再打包并发布：
 
