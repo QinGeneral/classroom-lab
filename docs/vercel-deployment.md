@@ -42,6 +42,7 @@
 - 公开仓库：`https://github.com/QinGeneral/classroom-lab`，默认分支 `main`。
 - 用户授权官方 Vercel GitHub 应用后，使用 `vercel git connect https://github.com/QinGeneral/classroom-lab.git --scope qingenerals-projects` 将仓库连接到现有项目。
 - 项目 API 读回 `link.type: github`、`link.org: QinGeneral`、`link.repo: classroom-lab`、`link.repoId: 1428457315`、`link.productionBranch: main`。
+- 连接后发现项目原先关闭 Git 自动部署（`gitProviderOptions.createDeployments: disabled`），现已改为 `enabled`；保留其他权限、部署保护与通知设置。
 - 仓库根目录 `vercel.json` 将 `dist/` 设为输出目录，关闭安装和构建命令；无需在仓库保存部署 Token 或配置 GitHub Actions。
 - 推送 `main` 后，由 Vercel Git 集成自动发布到正式域名；以对应提交的部署状态和线上资源核验为准。
 
